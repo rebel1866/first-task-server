@@ -8,7 +8,7 @@ import java.util.List;
 public interface ImageCategoryService {
     ImageCategoryDtoOut addCategory(ImageCategoryDtoIn imageCategoryDtoIn);
 
-    List<ImageCategoryDtoOut> getAllCategories();
+    List<ImageCategoryDtoOut> getAllCategories(int page);
 
     ImageCategoryDtoOut getCategoryById(int id);
 

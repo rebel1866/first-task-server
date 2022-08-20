@@ -14,7 +14,8 @@ import javax.validation.Valid;
 import static com.balinasoft.firsttask.system.StaticWrapper.wrap;
 
 @RestController
-@RequestMapping("/api/image-category")
+@RequestMapping("/api/image/category")
+@Secured("ROLE_USER")
 public class ImageCategoryController {
     private ImageCategoryService imageCategoryService;
 
@@ -23,26 +24,24 @@ public class ImageCategoryController {
         this.imageCategoryService = imageCategoryService;
     }
 
-    @Secured("ROLE_USER")
+
     @PostMapping
     public ResponseDto addImageCategory(@RequestBody @Valid ImageCategoryDtoIn imageCategoryDtoIn) {
         return wrap(imageCategoryService.addCategory(imageCategoryDtoIn));
     }
 
-    @Secured("ROLE_USER")
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseDto getAllCategories() {
-        return wrap(imageCategoryService.getAllCategories());
+    @GetMapping
+    public ResponseDto getAllCategories(@RequestParam(value = "page", defaultValue = "0") int page) {
+        return wrap(imageCategoryService.getAllCategories(page));
     }
 
-    @Secured("ROLE_USER")
-    @GetMapping(value = ("/{id}"), produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+
+    @GetMapping(value = ("/{id}"))
     public ResponseDto getCategoryById(@PathVariable int id) {
         return wrap(imageCategoryService.getCategoryById(id));
     }
 
-    @DeleteMapping(value = "/{id}", consumes = {"application/json"}, produces = {"application/json"})
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable int id) {
         imageCategoryService.deleteCategory(id);
