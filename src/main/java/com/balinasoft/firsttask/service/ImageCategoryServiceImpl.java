@@ -29,13 +29,16 @@ public class ImageCategoryServiceImpl implements ImageCategoryService {
         ImageCategory imageCategory = new ImageCategory();
         imageCategory.setCategoryName(imageCategoryDtoIn.getName());
         imageCategory.setCreationDate(LocalDateTime.now());
-        ImageCategory saved = imageCategoryRepository.save(imageCategory);
-        return new ImageCategoryDtoOut(saved.getImageCategoryId(), saved.getCategoryName(), saved.getCreationDate());
+        ImageCategory imageSaved = imageCategoryRepository.save(imageCategory);
+        return toDto(imageSaved);
     }
 
     @Override
     public List<ImageCategoryDtoOut> getAllCategories() {
         List<ImageCategory> categories = imageCategoryRepository.findAll();
+        if (categories.size() == 0) {
+            throw new NotFoundException();
+        }
         return categories.stream().map(this::toDto).collect(Collectors.toList());
     }
 
@@ -48,16 +51,16 @@ public class ImageCategoryServiceImpl implements ImageCategoryService {
         return toDto(imageCategory);
     }
 
-    private ImageCategoryDtoOut toDto(ImageCategory imageCategory) {
-        return new ImageCategoryDtoOut(imageCategory.getImageCategoryId(), imageCategory.getCategoryName(),
-                imageCategory.getCreationDate());
-    }
-
     @Override
     public void deleteCategory(int id) {
         if (!imageCategoryRepository.exists(id)) {
             throw new NotFoundException();
         }
         imageCategoryRepository.delete(id);
+    }
+
+    private ImageCategoryDtoOut toDto(ImageCategory imageCategory) {
+        return new ImageCategoryDtoOut(imageCategory.getImageCategoryId(), imageCategory.getCategoryName(),
+                imageCategory.getCreationDate());
     }
 }
