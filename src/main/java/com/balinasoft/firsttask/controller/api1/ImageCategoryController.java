@@ -6,10 +6,7 @@ import com.balinasoft.firsttask.service.ImageCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -26,10 +23,21 @@ public class ImageCategoryController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping( method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping
     public ResponseDto addImageCategory(@RequestBody @Valid ImageCategoryDtoIn imageCategoryDtoIn) {
         return wrap(imageCategoryService.addCategory(imageCategoryDtoIn));
+    }
+
+    @Secured("ROLE_USER")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseDto getAllCategories() {
+        return wrap(imageCategoryService.getAllCategories());
+    }
+
+    @Secured("ROLE_USER")
+    @GetMapping(value = ("/{id}"), produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseDto getCategoryById(@PathVariable int id) {
+        return wrap(imageCategoryService.getCategoryById(id));
     }
 }
