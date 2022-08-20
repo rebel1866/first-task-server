@@ -4,6 +4,7 @@ import com.balinasoft.firsttask.dto.ImageCategoryDtoIn;
 import com.balinasoft.firsttask.dto.ResponseDto;
 import com.balinasoft.firsttask.service.ImageCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -39,5 +40,11 @@ public class ImageCategoryController {
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseDto getCategoryById(@PathVariable int id) {
         return wrap(imageCategoryService.getCategoryById(id));
+    }
+
+    @DeleteMapping(value = "/{id}", consumes = {"application/json"}, produces = {"application/json"})
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCategory(@PathVariable int id) {
+        imageCategoryService.deleteCategory(id);
     }
 }

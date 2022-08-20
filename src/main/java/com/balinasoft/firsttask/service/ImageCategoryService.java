@@ -11,4 +11,6 @@ public interface ImageCategoryService {
     List<ImageCategoryDtoOut> getAllCategories();
 
     ImageCategoryDtoOut getCategoryById(int id);
+
+    void deleteCategory(int id);
 }

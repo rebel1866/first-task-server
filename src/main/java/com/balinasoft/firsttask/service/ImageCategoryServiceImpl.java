@@ -6,6 +6,7 @@ import com.balinasoft.firsttask.dto.ImageCategoryDtoOut;
 import com.balinasoft.firsttask.repository.ImageCategoryRepository;
 import com.balinasoft.firsttask.system.error.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -50,5 +51,13 @@ public class ImageCategoryServiceImpl implements ImageCategoryService {
     private ImageCategoryDtoOut toDto(ImageCategory imageCategory) {
         return new ImageCategoryDtoOut(imageCategory.getImageCategoryId(), imageCategory.getCategoryName(),
                 imageCategory.getCreationDate());
+    }
+
+    @Override
+    public void deleteCategory(int id) {
+        if (!imageCategoryRepository.exists(id)) {
+            throw new NotFoundException();
+        }
+        imageCategoryRepository.delete(id);
     }
 }
