@@ -31,4 +31,7 @@ public class Image {
 
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    private ImageCategory imageCategory;
 }
