@@ -6,6 +6,7 @@ import com.balinasoft.firsttask.dto.ImageCategoryDtoOut;
 import com.balinasoft.firsttask.repository.ImageCategoryRepository;
 import com.balinasoft.firsttask.system.error.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 public class ImageCategoryServiceImpl implements ImageCategoryService {
 
     private ImageCategoryRepository imageCategoryRepository;
+    @Value("${context.page-size}")
+    private String pageSize;
 
     @Autowired
     public void setImageCategoryRepository(ImageCategoryRepository imageCategoryRepository) {
@@ -35,7 +38,7 @@ public class ImageCategoryServiceImpl implements ImageCategoryService {
 
     @Override
     public List<ImageCategoryDtoOut> getAllCategories(int page) {
-        Page<ImageCategory> pageCategory = imageCategoryRepository.findAll(new PageRequest(page, 2));
+        Page<ImageCategory> pageCategory = imageCategoryRepository.findAll(new PageRequest(page, Integer.parseInt(pageSize)));
         List<ImageCategory> categories = pageCategory.getContent();
         if (categories.size() == 0) {
             throw new NotFoundException();
