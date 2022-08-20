@@ -1,12 +1,15 @@
 package com.balinasoft.firsttask.service;
 
 import com.balinasoft.firsttask.domain.Image;
+import com.balinasoft.firsttask.domain.ImageCategory;
 import com.balinasoft.firsttask.domain.User;
 import com.balinasoft.firsttask.dto.ImageDtoIn;
 import com.balinasoft.firsttask.dto.ImageDtoOut;
+import com.balinasoft.firsttask.repository.ImageCategoryRepository;
 import com.balinasoft.firsttask.repository.ImageRepository;
 import com.balinasoft.firsttask.repository.UserRepository;
 import com.balinasoft.firsttask.system.error.ApiAssert;
+import com.balinasoft.firsttask.system.error.exception.NotFoundException;
 import com.balinasoft.firsttask.util.StringGenerator;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +48,14 @@ public class ImageServiceImpl implements ImageService {
 
     private final ImageRepository imageRepository;
 
+    private final ImageCategoryRepository imageCategoryRepository;
+
     @Autowired
     public ImageServiceImpl(UserRepository userRepository,
-                            ImageRepository imageRepository) {
+                            ImageRepository imageRepository, ImageCategoryRepository imageCategoryRepository) {
         this.userRepository = userRepository;
         this.imageRepository = imageRepository;
+        this.imageCategoryRepository = imageCategoryRepository;
     }
 
     @Override
@@ -60,14 +66,20 @@ public class ImageServiceImpl implements ImageService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         User user = userRepository.findOne(currentUserId());
+        boolean isExist = imageCategoryRepository.exists(imageDtoIn.getCategoryId());
+        if (!isExist) {
+            throw new NotFoundException("No categories found by given id: " + imageDtoIn.getCategoryId());
+        }
         Image image = new Image();
         image.setUrl(fileName);
         image.setUser(user);
         image.setLat(imageDtoIn.getLat());
         image.setLng(imageDtoIn.getLng());
         image.setDate(imageDtoIn.getDate());
+        ImageCategory imageCategory = new ImageCategory();
+        imageCategory.setImageCategoryId(imageDtoIn.getCategoryId());
+        image.setImageCategory(imageCategory);
         image = imageRepository.save(image);
         return toDto(image);
     }
@@ -96,7 +108,7 @@ public class ImageServiceImpl implements ImageService {
                 url + "/images/" + image.getUrl(),
                 image.getDate(),
                 image.getLat(),
-                image.getLng());
+                image.getLng(), image.getImageCategory().getImageCategoryId());
     }
 
     private String saveImage(String base64Image) throws IOException {
@@ -169,7 +181,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     private String getFullPath(String fileName) {
-        return imageFolder + "/" + fileName;
+        return "/home/stanislav" + imageFolder + "/" + fileName;
     }
 
     private void createFolders(String fileName) throws IOException {

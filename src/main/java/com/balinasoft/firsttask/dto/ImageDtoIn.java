@@ -42,4 +42,7 @@ public class ImageDtoIn {
     @DecimalMin("-180.0")
     @DecimalMax("180.0")
     double lng;
+
+    @NotNull
+    private Integer categoryId;
 }

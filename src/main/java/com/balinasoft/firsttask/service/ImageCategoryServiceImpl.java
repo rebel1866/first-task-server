@@ -39,6 +39,7 @@ public class ImageCategoryServiceImpl implements ImageCategoryService {
         List<ImageCategory> categories = pageCategory.getContent();
         if (categories.size() == 0) {
             throw new NotFoundException();
+            //message
         }
         return categories.stream().map(this::toDto).collect(Collectors.toList());
     }
