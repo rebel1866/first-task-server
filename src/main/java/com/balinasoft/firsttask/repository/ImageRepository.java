@@ -20,4 +20,6 @@ public interface ImageRepository extends JpaRepository<Image, Integer>,
         QueryDslPredicateExecutor<Image> {
     @Query("from Image i where i.user.id = :userId order by i.date desc")
     List<Image> findByUser(@Param("userId") int userId, Pageable pageable);
+
+    List<Image> findByImageCategoryImageCategoryId(int imageCategoryId, Pageable pageable);
 }

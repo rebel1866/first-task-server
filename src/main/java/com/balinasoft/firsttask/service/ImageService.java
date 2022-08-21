@@ -13,4 +13,6 @@ public interface ImageService {
     List<ImageDtoOut> getImages(int page);
 
     List<ImageDtoOut> searchByCategoryName(int page, String name);
+
+    List<ImageDtoOut> searchByCategoryId(int page, int id);
 }

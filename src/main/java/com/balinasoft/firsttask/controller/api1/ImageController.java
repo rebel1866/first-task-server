@@ -68,7 +68,6 @@ public class ImageController {
     @GetMapping("/category/{id}")
     public ResponseDto getImagesByCategoryId(@PathVariable("id") int id, @RequestParam(value = "page",
             defaultValue = "0") int page) {
-//        return wrap(imageService.searchByCategoryId(page, id));
-        return wrap();
+        return wrap(imageService.searchByCategoryId(page, id));
     }
 }

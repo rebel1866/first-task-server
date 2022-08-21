@@ -125,6 +125,15 @@ public class ImageServiceImpl implements ImageService {
         return images.stream().map(this::toDto).collect(Collectors.toList());
     }
 
+    @Override
+    public List<ImageDtoOut> searchByCategoryId(int page, int id) {
+        List<Image> images = imageRepository.findByImageCategoryImageCategoryId(id,
+                new PageRequest(page, Integer.parseInt(pageSize)));
+        if (images.size() == 0) {
+            throw new NotFoundException("nothing found by given id: " + id);
+        }
+        return images.stream().map(this::toDto).collect(Collectors.toList());
+    }
 
     private ImageDtoOut toDto(Image image) {
         ImageCategory imageCategory = image.getImageCategory();
