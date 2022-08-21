@@ -2,6 +2,7 @@ package com.balinasoft.firsttask.service;
 
 import com.balinasoft.firsttask.domain.Image;
 import com.balinasoft.firsttask.domain.ImageCategory;
+import com.balinasoft.firsttask.domain.QImage;
 import com.balinasoft.firsttask.domain.User;
 import com.balinasoft.firsttask.dto.ImageDtoIn;
 import com.balinasoft.firsttask.dto.ImageDtoOut;
@@ -11,9 +12,12 @@ import com.balinasoft.firsttask.repository.UserRepository;
 import com.balinasoft.firsttask.system.error.ApiAssert;
 import com.balinasoft.firsttask.system.error.exception.NotFoundException;
 import com.balinasoft.firsttask.util.StringGenerator;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -43,6 +48,9 @@ public class ImageServiceImpl implements ImageService {
 
     @Value("${project.url}")
     private String url;
+
+    @Value("${context.pageSize}")
+    private String pageSize;
 
     private final UserRepository userRepository;
 
@@ -102,6 +110,21 @@ public class ImageServiceImpl implements ImageService {
         List<Image> images = imageRepository.findByUser(currentUserId(), new PageRequest(page, 20));
         return images.stream().map(this::toDto).collect(Collectors.toList());
     }
+
+    @Override
+    public List<ImageDtoOut> searchByCategory(int page, String categoryName) {
+        List<String> categories = Arrays.stream(categoryName.split(",")).map(String::trim).collect(Collectors.toList());
+        List<Predicate> predicateList = new ArrayList<>();
+        for (String category : categories) {
+            Predicate predicate = QImage.image.imageCategory.categoryName.containsIgnoreCase(category);
+            predicateList.add(predicate);
+        }
+        Predicate predicate = ExpressionUtils.anyOf(predicateList);
+        Page<Image> imagePage = imageRepository.findAll(predicate, new PageRequest(page, Integer.parseInt(pageSize)));
+        List<Image> images = imagePage.getContent();
+        return images.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
 
     private ImageDtoOut toDto(Image image) {
         return new ImageDtoOut(image.getId(),

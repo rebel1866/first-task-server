@@ -63,6 +63,7 @@ public class ImageCategoryServiceImpl implements ImageCategoryService {
         imageCategoryRepository.delete(id);
     }
 
+
     private ImageCategoryDtoOut convertToDto(ImageCategory imageCategory) {
         return new ImageCategoryDtoOut(imageCategory.getImageCategoryId(), imageCategory.getCategoryName(),
                 imageCategory.getCreationDate());

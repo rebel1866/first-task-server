@@ -1,6 +1,7 @@
 package com.balinasoft.firsttask.controller.api1;
 
 import com.balinasoft.firsttask.dto.ImageCategoryDtoIn;
+import com.balinasoft.firsttask.dto.ImageDtoOut;
 import com.balinasoft.firsttask.dto.ResponseDto;
 import com.balinasoft.firsttask.service.ImageCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
