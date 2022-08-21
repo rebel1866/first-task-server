@@ -1,12 +1,10 @@
 package com.balinasoft.firsttask.controller.api1;
 
 import com.balinasoft.firsttask.dto.ImageCategoryDtoIn;
-import com.balinasoft.firsttask.dto.ImageDtoOut;
 import com.balinasoft.firsttask.dto.ResponseDto;
 import com.balinasoft.firsttask.service.ImageCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +13,7 @@ import javax.validation.Valid;
 import static com.balinasoft.firsttask.system.StaticWrapper.wrap;
 
 @RestController
-@RequestMapping("/api/image/category")
+@RequestMapping("/api/category")
 @Secured("ROLE_USER")
 public class ImageCategoryController {
     private ImageCategoryService imageCategoryService;
@@ -46,6 +44,7 @@ public class ImageCategoryController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable int id) {
         //TODO swagger
+        // TODO: 21/08/2022 secured
         imageCategoryService.deleteCategory(id);
     }
 }

@@ -112,7 +112,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<ImageDtoOut> searchByCategory(int page, String categoryName) {
+    public List<ImageDtoOut> searchByCategoryName(int page, String categoryName) {
         List<String> categories = Arrays.stream(categoryName.split(",")).map(String::trim).collect(Collectors.toList());
         List<Predicate> predicateList = new ArrayList<>();
         for (String category : categories) {
