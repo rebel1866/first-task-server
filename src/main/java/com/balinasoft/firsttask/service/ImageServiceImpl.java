@@ -78,7 +78,7 @@ public class ImageServiceImpl implements ImageService {
         User user = userRepository.findOne(currentUserId());
         boolean isExist = imageCategoryRepository.exists(imageDtoIn.getCategoryId());
         if (!isExist) {
-            throw new NotFoundException("No categories found by given id: " + imageDtoIn.getCategoryId());
+            throw new NotFoundException("No category found by given id: " + imageDtoIn.getCategoryId());
         }
         Image image = new Image();
         image.setUrl(fileName);
@@ -86,8 +86,7 @@ public class ImageServiceImpl implements ImageService {
         image.setLat(imageDtoIn.getLat());
         image.setLng(imageDtoIn.getLng());
         image.setDate(imageDtoIn.getDate());
-        ImageCategory imageCategory = new ImageCategory();
-        imageCategory.setImageCategoryId(imageDtoIn.getCategoryId());
+        ImageCategory imageCategory = imageCategoryRepository.getOne(imageDtoIn.getCategoryId());
         image.setImageCategory(imageCategory);
         image = imageRepository.save(image);
         return toDto(image);

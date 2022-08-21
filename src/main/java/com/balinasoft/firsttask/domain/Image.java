@@ -2,6 +2,7 @@ package com.balinasoft.firsttask.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.Date;
 @Table(name = "image")
 @Setter
 @Getter
+@ToString
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

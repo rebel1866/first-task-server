@@ -59,7 +59,7 @@ public class ImageController {
 
     @Secured("ROLE_USER")
     @GetMapping("/searchByCategory")
-    public ResponseDto getImagesByCategories(@RequestParam(value = "page", defaultValue = "0") int page,
+    public ResponseDto getImagesByCategoryName(@RequestParam(value = "page", defaultValue = "0") int page,
                                              @RequestParam("categoryName") String categoryName) {
         return wrap(imageService.searchByCategory(page, categoryName));
     }

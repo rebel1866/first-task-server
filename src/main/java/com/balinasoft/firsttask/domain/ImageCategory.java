@@ -2,6 +2,7 @@ package com.balinasoft.firsttask.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "image_category")
 @Setter
 @Getter
+@ToString
 public class ImageCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

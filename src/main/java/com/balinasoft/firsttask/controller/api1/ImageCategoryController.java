@@ -45,9 +45,7 @@ public class ImageCategoryController {
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable int id) {
-        //TODO 1)secured only particular user id
-        // 2) swagger
-        // 4) optional ?
+        //TODO swagger
         imageCategoryService.deleteCategory(id);
     }
 }
