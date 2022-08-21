@@ -4,6 +4,7 @@ import com.balinasoft.firsttask.domain.Image;
 import com.balinasoft.firsttask.domain.ImageCategory;
 import com.balinasoft.firsttask.domain.QImage;
 import com.balinasoft.firsttask.domain.User;
+import com.balinasoft.firsttask.dto.ImageCategoryDtoOut;
 import com.balinasoft.firsttask.dto.ImageDtoIn;
 import com.balinasoft.firsttask.dto.ImageDtoOut;
 import com.balinasoft.firsttask.repository.ImageCategoryRepository;
@@ -127,11 +128,14 @@ public class ImageServiceImpl implements ImageService {
 
 
     private ImageDtoOut toDto(Image image) {
+        ImageCategory imageCategory = image.getImageCategory();
+        ImageCategoryDtoOut imageCategoryDtoOut = new ImageCategoryDtoOut(imageCategory.getImageCategoryId(),
+                imageCategory.getCategoryName(), imageCategory.getCreationDate());
         return new ImageDtoOut(image.getId(),
                 url + "/images/" + image.getUrl(),
                 image.getDate(),
                 image.getLat(),
-                image.getLng(), image.getImageCategory().getImageCategoryId());
+                image.getLng(), imageCategoryDtoOut);
     }
 
     private String saveImage(String base64Image) throws IOException {
