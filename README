@@ -1,9 +1,2 @@
-cd /first-task
-
-./mvnw clean package && python3 -m http.server 1234
-
-sudo service first-task stop
-
-wget http://192.168.0.100:1234/target/first-task.jar -O first-task.jar
-sudo systemctl daemon-reload
-sudo service first-task restart
+Branch master - source code of the project
+Branch dev - source code of the project + code written by me
