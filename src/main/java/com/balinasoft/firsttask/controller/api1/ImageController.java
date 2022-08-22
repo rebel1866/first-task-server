@@ -44,7 +44,7 @@ public class ImageController {
 
     @Secured("ROLE_USER")
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    @ApiOperation(value = "Upload image", response = ImageDtoOut.class)
+    @ApiOperation(value = "Delete image", response = ImageDtoOut.class)
     public ResponseDto deleteImage(@PathVariable int id) {
         imageService.deleteImage(id);
         return wrap();

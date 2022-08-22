@@ -31,6 +31,6 @@ public class ImageDtoOut {
 
     @ApiModelProperty(required = true)
     double lng;
-
+    @ApiModelProperty(required = true)
     private ImageCategoryDtoOut imageCategory;
 }

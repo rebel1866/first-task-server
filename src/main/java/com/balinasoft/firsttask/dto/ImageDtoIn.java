@@ -44,5 +44,6 @@ public class ImageDtoIn {
     double lng;
 
     @NotNull
+    @ApiModelProperty(required = true)
     private Integer categoryId;
 }
