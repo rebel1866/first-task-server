@@ -43,8 +43,6 @@ public class ImageCategoryController {
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable int id) {
-        //TODO swagger
-        // TODO: 21/08/2022 secured
         imageCategoryService.deleteCategory(id);
     }
 }
