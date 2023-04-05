@@ -1,12 +1,17 @@
 version: '3.1'
 
 services:
-  mysql:
+  db:
     image: mysql
     environment: 
       MYSQL_ROOT_PASSWORD: test
       MYSQL_DATABASE: firsttask
-      
     ports:
       - 3306:3306
+  web:
+    build: .
+    ports:
+      - "9099:9099"
+    depends_on:
+      - db
 
