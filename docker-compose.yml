@@ -15,4 +15,5 @@ services:
       - "9099:9099"
     depends_on:
       - db
+    restart: on-failure:3
 
